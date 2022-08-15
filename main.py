@@ -1,5 +1,5 @@
 """
-1. Run postgresql inside container
+* Run postgresql inside container
     >> docker run
         --name postgresql
         --network=host # To use `localhost` in the connection string.
@@ -9,11 +9,24 @@
         -d
         postgres
 
+* Difference between Core and ORM SQLAlchemy and use cases of each of them?
+* WTH the MetaData?
+* WTH the SQL Expression Language (SEL)?
 """
 import datetime
 
 from connection import get_connection
-from sqlalchemy import MetaData, Column, Table, Integer, Numeric, String, DateTime, ForeignKey, Boolean
+from sqlalchemy import (
+    MetaData,
+    Column,
+    Table,
+    Integer,
+    Numeric,
+    String,
+    DateTime,
+    ForeignKey,
+    Boolean,
+)
 
 
 metadata = MetaData()
@@ -37,7 +50,12 @@ users = Table(
     Column("phone", String(20), nullable=False),
     Column("password", String(20), nullable=False),
     Column("created_on", DateTime(), default=datetime.datetime.now),
-    Column("updated_on", DateTime(), default=datetime.datetime.now, onupdate=datetime.datetime.now),
+    Column(
+        "updated_on",
+        DateTime(),
+        default=datetime.datetime.now,
+        onupdate=datetime.datetime.now,
+    ),
 )
 
 orders = Table(
@@ -55,7 +73,7 @@ line_items = Table(
     Column("order_id", ForeignKey("orders.order_id")),
     Column("cookie_id", ForeignKey("cookies.cookie_id")),
     Column("quantity", Integer()),
-    Column("extended_cost", Numeric(12, 2))
+    Column("extended_cost", Numeric(12, 2)),
 )
 
 engine, connection = get_connection()

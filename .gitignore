@@ -168,3 +168,6 @@ http_ca.crt
 # Memray
 memray*
 *.bin
+
+# assets
+*.pdf
